@@ -78,7 +78,7 @@ jobs:
         id: mySecrets # ID for this step to reference its outputs
         with:
           keyvault: 'odnkv' # Replace with your Azure Key Vault name
-          secrets: 'ODDAPP-OPENAI-API-KEY' # Replace with the name of the secret to retrieve
+          secrets: 'ODNAPP-OPENAI-API-KEY' # Replace with the name of the secret to retrieve
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3

@@ -89,7 +89,7 @@ jobs:
         env:
           MY_APP_SETTING: ${{ secrets.MY_GITHUB_SECRET }}          
 
-      - name: Use the retrieved secret
-        run: |      
-            echo "The secret value is: ${{ steps.mySecrets.outputs.ODDAPP-OPENAI-API-KEY }}"
+      #- name: Use the retrieved secret
+      #  run: |      
+      #      echo "The secret value is: ${{ steps.mySecrets.outputs.ODDAPP-OPENAI-API-KEY }}"
                   

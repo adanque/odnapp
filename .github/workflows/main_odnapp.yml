@@ -73,13 +73,6 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_68096D5C7083439786200120344975BB }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_89BB9141E00C402492E534A757FDA661 }}
 
-      #- name: Get Key Vault Secret
-      #  uses: Azure/get-keyvault-secrets@v1
-      #  id: mySecrets # ID for this step to reference its outputs
-      #  with:
-      #    keyvault: 'odnkv' # Replace with your Azure Key Vault name
-      #    secrets: 'ODNAPP-OPENAI-API-KEY' # Replace with the name of the secret to retrieve
-
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
@@ -88,8 +81,3 @@ jobs:
           slot-name: 'Production'
         env:
           MY_APP_SETTING: ${{ secrets.MY_GITHUB_SECRET }}          
-
-      #- name: Use the retrieved secret
-      #  run: |      
-      #      echo "The secret value is: ${{ steps.mySecrets.outputs.ODDAPP-OPENAI-API-KEY }}"
-                  

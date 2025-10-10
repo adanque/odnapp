@@ -1,5 +1,7 @@
-numpy
 fastapi
+uvicorn
+gunicorn
+numpy
 pydantic
 tiktoken
 openai
@@ -14,4 +16,3 @@ redis
 poetry
 requests
 pytest
-gunicorn

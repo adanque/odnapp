@@ -46,7 +46,9 @@ jobs:
         run: echo "The REDIS_PORT is ${{ secrets.REDIS_PORT }}"
         
       - name: Pass a REDIS_PORT secret as an environment variable
-        run: echo "MY_ENV_REDIS_PORT_SECRET=${{ secrets.REDIS_PORT }}" >> $REDIS_PORT_ENV
+        run: echo "MY_ENV_REDIS_PORT_SECRET=${{ secrets.REDIS_PORT }}"
+       
+#        run: echo "MY_ENV_REDIS_PORT_SECRET=${{ secrets.REDIS_PORT }}" >> $REDIS_PORT_ENV        
 #        env:
 #          MY_VARIABLE: ${{ secrets.REDIS_PORT }}
 #        run: |

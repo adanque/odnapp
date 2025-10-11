@@ -52,16 +52,19 @@ jobs:
           echo "Using the REDIS_PORT secret from an environment variable"
           echo $MY_VARIABLE        
 
-      - name: Test Redis-Stack TCP port access with nc
+      - name: Conditional Test Redis Port
+        if: ${{ secrets.REDIS_PORT == '6379' }}
         run: |
-          if [ -z "${{ secrets.REDIS_PORT }}" ]; 
-          then echo "REDIS_PORT Secret is missing";
+          echo "secrets.REDIS_PORT is correct"
 
+#      - name: Test Redis-Stack TCP port access with nc
+#        run: |
+#          if [ -z "${{ secrets.REDIS_PORT }}" ]; 
+#          then echo "REDIS_PORT Secret is missing";
 #          if [ -z "${{ secrets.REDIS_HOST }}" ]; then echo "REDIS_HOST Secret is missing";
-          
-        env:
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+#        env:
+#          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+#          REDIS_PORT: ${{ secrets.REDIS_PORT }}
 
       - name: Test Redis-Stack TCP port access with nc
         run: |

@@ -56,15 +56,22 @@ jobs:
 #          echo $MY_VARIABLE        
 
       - name: Conditional Test Redis Port
-        if: ${{ env.MY_ENV_REDIS_PORT_SECRET == 6379 }}
+        if: ${{ env.MY_ENV_REDIS_PORT_SECRET == '6379' }}
         run: |
             echo "The secret MY_ENV_REDIS_PORT_SECRET matches '6379'."
 
       - name: Conditional Test Redis Port not correct
-        if: ${{ env.MY_ENV_REDIS_PORT_SECRET != 6379 }}
+        if: ${{ env.MY_ENV_REDIS_PORT_SECRET != '6379' }}
         run: |
             echo "The secret MY_ENV_REDIS_PORT_SECRET does not match '6379'."
 
+      - name: Debug secret
+        run: |
+        if [ -z "${{ secrets.REDIS_PORT }}" ]; then
+          echo "REDIS_PORT is missing or empty"
+        else
+          echo "REDIS_PORT is set (length: ${#REDIS_PORT})"
+        fi
 
 #          if [ "${{ secrets.REDIS_PORT }}" == "6379" ]; then
 #            echo "secrets.REDIS_PORT is correct"

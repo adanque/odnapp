@@ -67,11 +67,11 @@ jobs:
 
       - name: Debug secret
         run: |
-        if [ -z "${{ secrets.REDIS_PORT }}" ]; then
-          echo "REDIS_PORT is missing or empty"
-        else
-          echo "REDIS_PORT is set (length: ${#REDIS_PORT})"
-        fi
+            if [ -z "${{ secrets.REDIS_PORT }}" ]; then
+              echo "REDIS_PORT is missing or empty"
+            else
+              echo "REDIS_PORT is set (length: ${#REDIS_PORT})"
+            fi
 
 #          if [ "${{ secrets.REDIS_PORT }}" == "6379" ]; then
 #            echo "secrets.REDIS_PORT is correct"

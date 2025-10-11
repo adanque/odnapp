@@ -53,10 +53,11 @@ jobs:
           echo $MY_VARIABLE        
 
       - name: Conditional Test Redis Port
-        if: ${{ secrets.REDIS_PORT == '6379' }}
+        if: ${{ secrets.REDIS_PORT }} == '6379'
         run: |
-          echo "secrets.REDIS_PORT is correct"
-
+          if [ "${{ secrets.REDIS_PORT }}" == "6379" ]; then
+            echo "secrets.REDIS_PORT is correct"
+          fi
 #      - name: Test Redis-Stack TCP port access with nc
 #        run: |
 #          if [ -z "${{ secrets.REDIS_PORT }}" ]; 

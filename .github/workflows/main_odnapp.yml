@@ -46,18 +46,27 @@ jobs:
         run: echo "The REDIS_PORT is ${{ secrets.REDIS_PORT }}"
         
       - name: Pass a REDIS_PORT secret as an environment variable
-        env:
-          MY_VARIABLE: ${{ secrets.REDIS_PORT }}
-        run: |
-          echo "Using the REDIS_PORT secret from an environment variable"
-          echo $MY_VARIABLE        
+        run: echo "MY_ENV_REDIS_PORT_SECRET=${{ secrets.REDIS_PORT }}" >> $REDIS_PORT_ENV
+#        env:
+#          MY_VARIABLE: ${{ secrets.REDIS_PORT }}
+#        run: |
+#          echo "Using the REDIS_PORT secret from an environment variable"
+#          echo $MY_VARIABLE        
 
       - name: Conditional Test Redis Port
-        if: ${{ secrets.REDIS_PORT }} == '6379'
+        if: ${{ env.MY_ENV_REDIS_PORT_SECRET == '6379' }}
         run: |
-          if [ "${{ secrets.REDIS_PORT }}" == "6379" ]; then
-            echo "secrets.REDIS_PORT is correct"
-          fi
+            echo "The secret MY_ENV_REDIS_PORT_SECRET matches '6379'."
+
+      - name: Conditional Test Redis Port not correct
+        if: ${{ env.MY_ENV_REDIS_PORT_SECRET != '6379' }}
+        run: |
+            echo "The secret MY_ENV_REDIS_PORT_SECRET does not match '6379'."
+
+
+#          if [ "${{ secrets.REDIS_PORT }}" == "6379" ]; then
+#            echo "secrets.REDIS_PORT is correct"
+#          fi
 #      - name: Test Redis-Stack TCP port access with nc
 #        run: |
 #          if [ -z "${{ secrets.REDIS_PORT }}" ]; 

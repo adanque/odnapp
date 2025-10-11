@@ -42,6 +42,16 @@ jobs:
         run: |
           pip install redis
 
+      - name: Use a secret in a command
+        run: echo "The REDIS_PORT is ${{ secrets.REDIS_PORT }}"
+        
+      - name: Pass a REDIS_PORT secret as an environment variable
+        env:
+          MY_VARIABLE: ${{ secrets.REDIS_PORT }}
+        run: |
+          echo "Using the REDIS_PORT secret from an environment variable"
+          echo $MY_VARIABLE        
+
       - name: Test Redis-Stack TCP port access with nc
         run: |
           if [ -z "${{ secrets.REDIS_HOST }}" ]; then echo "REDIS_HOST Secret is missing";

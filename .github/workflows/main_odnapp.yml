@@ -85,19 +85,18 @@ jobs:
 #          REDIS_HOST: ${{ secrets.REDIS_HOST }}
 #          REDIS_PORT: ${{ secrets.REDIS_PORT }}
 
+#          nc -zv ${{ secrets.REDIS_HOST }} ${{ secrets.REDIS_PORT }}      
+
       - name: Test Redis-Stack TCP port access with nc
         run: |
-          nc -zv ${{ secrets.REDIS_HOST }} ${{ secrets.REDIS_PORT }}      
-        env:
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          nc -zv 10.0.2.4 6379
 
       - name: Test Redis-Stack TCP port access with Python
         run: |
-          python -c "import socket; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM); s.settimeout(5); try: s.connect(('${{ secrets.REDIS_HOST }}', int('${{ secrets.REDIS_PORT }}'))); print('Connection successful'); s.close(); exit(0); except socket.error as e: print(f'Connection failed: {e}'); exit(1);"
-        env:
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          python -c "import socket; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM); s.settimeout(5); try: s.connect(('10.0.2.4', int('6379'))); print('Connection successful'); s.close(); exit(0); except socket.error as e: print(f'Connection failed: {e}'); exit(1);"
+#        env:
+#          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+#          REDIS_PORT: ${{ secrets.REDIS_PORT }}
 
                 
       # By default, when you enable GitHub CI/CD integration through the Azure portal, the platform automatically sets the SCM_DO_BUILD_DURING_DEPLOYMENT application setting to true. This triggers the use of Oryx, a build engine that handles application compilation and dependency installation (e.g., pip install) directly on the platform during deployment. Hence, we exclude the antenv virtual environment directory from the deployment artifact to reduce the payload size. 

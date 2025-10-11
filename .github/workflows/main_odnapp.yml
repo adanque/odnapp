@@ -54,7 +54,8 @@ jobs:
 
       - name: Test Redis-Stack TCP port access with nc
         run: |
-          if [ -z "${{ secrets.REDIS_PORT }}" ]; then echo "REDIS_PORT Secret is missing";
+          if [ -z "${{ secrets.REDIS_PORT }}" ]; 
+          then echo "REDIS_PORT Secret is missing";
 
 #          if [ -z "${{ secrets.REDIS_HOST }}" ]; then echo "REDIS_HOST Secret is missing";
           

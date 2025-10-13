@@ -1,6 +1,7 @@
 import os
 import asyncio
-from uuid import uuid4
+#from uuid import uuid4
+import fastuuid
 from tqdm import tqdm
 from pdfminer.high_level import extract_text
 from app.utils.splitter import TextSplitter
@@ -27,7 +28,7 @@ async def process_docs(docs_dir=settings.DOCS_DIR):
     text_splitter = TextSplitter(chunk_size=512, chunk_overlap=150)
     print('\nSplitting documents into chunks')
     for doc_name, doc_text in docs:
-        doc_id = str(uuid4())[:8]
+        doc_id = str(fastuuid.uuid4())[:8]
         doc_chunks = text_splitter.split(doc_text)
         for chunk_idx, chunk_text in enumerate(doc_chunks):
             chunk = {

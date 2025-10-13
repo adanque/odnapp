@@ -1,4 +1,5 @@
-from uuid import uuid4
+import fastuuid
+#from uuid import uuid4
 from time import time
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -21,7 +22,7 @@ router = APIRouter()
 
 @router.post('/chats')
 async def create_new_chat(rdb = Depends(get_rdb)):
-    chat_id = str(uuid4())[:8]
+    chat_id = str(fastuuid.uuid4())[:8]
     created = int(time())
     await create_chat(rdb, chat_id, created)
     return {'id': chat_id}

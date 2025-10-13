@@ -9,7 +9,7 @@ asyncio
 datetime
 sse_starlette
 pydantic_settings
-uuid
+fastuuid
 tqdm
 pdfminer
 redis

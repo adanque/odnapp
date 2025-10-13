@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     TOKENIZER_ENCODING: str = 'o200k_base'
     EMBEDDING_MODEL: str = 'text-embedding-3-large'
     EMBEDDING_DIMENSIONS: int = 1024
-    REDIS_HOST: str = '10.0.2.4'
+    REDIS_HOST: str = 'odnapp-ejhegjahfrgxckcz.centralus-01.azurewebsites.net'
     REDIS_PORT: int = 6379
     DOCS_DIR: str = 'data/docs'
     EXPORT_DIR: str = 'data'

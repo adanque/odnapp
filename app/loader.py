@@ -1,4 +1,5 @@
 import os
+import io
 import asyncio
 #from uuid import uuid4
 import fastuuid
@@ -8,6 +9,22 @@ from app.utils.splitter import TextSplitter
 from app.openai import get_embeddings, token_size
 from app.db import get_redis, setup_db, add_chunks_to_vector_db
 from app.config import settings
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
+from azure.storage.blob import BlobServiceClient
+
+
+KEY_VAULT_URL = os.environ['KEY_VAULT_URL']
+STORAGE_ACCOUNT_URL = os.environ['STORAGE_ACCOUNT_URL']
+CONTAINER_NAME = os.environ['CONTAINER_NAME']
+SECRET_NAME = os.environ['ODN_SECRET'] 
+credential = DefaultAzureCredential()
+secret_client = SecretClient(vault_url=KEY_VAULT_URL, credential=credential)
+secret = secret_client.get_secret(SECRET_NAME)
+
+blob_service_client = BlobServiceClient(account_url=STORAGE_ACCOUNT_URL, credential=credential)
+container_client = blob_service_client.get_container_client(CONTAINER_NAME)
+
 
 def batchify(iterable, batch_size):
     for i in range(0, len(iterable), batch_size):
@@ -16,12 +33,27 @@ def batchify(iterable, batch_size):
 async def process_docs(docs_dir=settings.DOCS_DIR):
     docs = []
     print('\nLoading documents')
-    pdf_files = [f for f in os.listdir(docs_dir) if f.endswith('.pdf')]
-    for filename in tqdm(pdf_files):
-        file_path = os.path.join(docs_dir, filename)
-        text = extract_text(file_path)
-        doc_name = os.path.splitext(filename)[0]
-        docs.append((doc_name, text))
+      
+    pdf_files = [f for f in container_client.list_blobs(name_starts_with=docs_dir) if f.name.lower().endswith(".pdf")]
+    for blob in pdf_files:
+        blob_client = container_client.get_blob_client(blob.name)
+        blob_data = blob_client.download_blob().readall()
+        with io.BytesIO(blob_data) as pdf_file:
+            text = extract_text(pdf_file)
+            doc_name = blob.name.lower() #os.path.splitext(filename)[0]
+            docs.append((doc_name, text))
+    
+    
+    #pdf_files = [f for f in os.listdir(docs_dir) if f.endswith('.pdf')]
+    
+    #for filename in tqdm(pdf_files):
+    #    file_path = os.path.join(docs_dir, filename)
+    #    text = extract_text(file_path)
+    #    doc_name = os.path.splitext(filename)[0]
+    #    docs.append((doc_name, text))
+        
+        
+        
     print(f'Loaded {len(docs)} PDF documents')
 
     chunks = []

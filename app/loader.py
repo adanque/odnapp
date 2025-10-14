@@ -40,6 +40,8 @@ async def process_docs(docs_dir=settings.DOCS_DIR):
         blob_data = blob_client.download_blob().readall()
         with io.BytesIO(blob_data) as pdf_file:
             text = extract_text(pdf_file)
+            print(doc_name)
+            print(text)
             doc_name = blob.name.lower() #os.path.splitext(filename)[0]
             docs.append((doc_name, text))
     
@@ -93,6 +95,7 @@ async def load_knowledge_base():
     async with get_redis() as rdb:
         print('Setting up Redis database')
         await setup_db(rdb)
+        print('\nStarting process_docs()')
         chunks = await process_docs()
         print('\nAdding chunks to vector db')
         await add_chunks_to_vector_db(rdb, chunks)

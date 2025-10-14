@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "oddapp"
+name = "odnapp"
 version = "0.1.0"
 description = ""
 authors = ["atd  <adanque@gmail.com>"]

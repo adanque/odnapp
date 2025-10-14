@@ -1,3 +1,1 @@
-poetry run gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.loader:main --timeout 600
-#pip install poetry 
-#poetry run load
+gunicorn --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0 app.main:app --timeout 600

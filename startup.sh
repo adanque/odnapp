@@ -1,1 +1,1 @@
-gunicorn --workers 2 --worker-class uvicorn.workers.UvicornWorker app.main:app --timeout 600
+pip install poetry && poetry install && poetry run gunicorn --workers 4 --worker-class uvicorn.workers.UvicornWorker app.main:app --timeout 600
